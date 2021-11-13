@@ -31,8 +31,7 @@
 ```bash
 $ npm install
 $ Pipe 패키지 : npm install class-validator class-transformer
-$ bcryptjs : npm install bcryptjs --save
-$ jwt, passport : npm install @nestjs/jwt @nestjs/passport passport passport-jwt --save
+$ passport : npm install @nestjs/passport passport --save
 $ socket 통신(chat) : npm i -s @nestjs/websockets @nestjs/platform-socket.io @nestjs/platform-express path
 $ socket 통신(chat) : npm i -D @types/socket.io
 $ kakao login : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api(개발문서 참고)
