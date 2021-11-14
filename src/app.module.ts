@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { RoomModule } from './room/room.module';
 import * as mongoose from 'mongoose';
 
 @Module({
@@ -15,9 +16,12 @@ import * as mongoose from 'mongoose';
       useUnifiedTopology: true,
     }),
     UsersModule,
+    RoomModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+  ],
 })
 export class AppModule implements NestModule {
   private readonly isDev: boolean = process.env.MODE === 'dev' ? true : false;

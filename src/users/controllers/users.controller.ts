@@ -1,4 +1,4 @@
-import { UsersService } from './../services/users.service';
+import { UsersService } from '../services/users.service';
 import { HttpExceptionFilter } from '../../http-exception.filter';
 import { UserRequestDto } from '../dto/users.request.dto';
 import {
