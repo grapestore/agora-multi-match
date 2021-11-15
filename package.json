@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@types/morgan": "^1.9.3",
     "agora-access-token": "^2.0.4",
+    "agora-rtm-sdk": "^1.4.3-203",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "mongoose": "^6.0.12",

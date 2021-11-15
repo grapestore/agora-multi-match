@@ -7,10 +7,11 @@
   <title>Basic Video Call -- Agora</title>
   <link rel="stylesheet" href="./assets/bootstrap.min.css">
   <link rel="stylesheet" href="./index.css">
+  
 </head>
 <body>
 
-<!--
+<!--x
   This page interacts with the Agora Voice Call for Web Next Generation SDK to easily create Video Call
   functionality in a Web page.
 
@@ -88,12 +89,6 @@
     </div>
 
   </form>
-  
-  <form id="match-form">
-    <div class="button-group">
-      <button id="match" type="submit" class="btn btn-primary btn-sm">match</button>
-    </div>
-  </form>
   <!--
     This local media splayer is enabled when the user has successfully joined a Video Call channel.
   -->
@@ -107,6 +102,14 @@
       <div id="remote-playerlist"></div>
     </div>
   </div>
+  <div class="input-field channel-padding">
+    <label for="channelMessage" class="active">Channel Message</label>
+    <input type="text" placeholder="channel message" name="channelMessage">
+  <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin" id="send_channel_message">SEND</button>
+</div>
+<div class="col s7 log-container" id="log">
+<p>message output area</p>
+</div>
 </div>
 
 <!--
@@ -115,6 +118,7 @@
 <script src="./assets/jquery-3.4.1.min.js"></script>
 <script src="./assets/bootstrap.bundle.min.js"></script>
 <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
-<script src="./basicVideoCall.js"></script>
+<script src="./agora-rtm-sdk-1.4.3.js"></script>
+<script type="module" src="./basicVideoCall.js"></script>
 </body>
 </html>
