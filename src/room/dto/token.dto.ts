@@ -1,7 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 
 
-export class CreateTokenDto{
+export class InsertQueueDto{
 
   @IsNotEmpty()
   nickname: string;

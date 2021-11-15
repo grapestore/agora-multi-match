@@ -1,5 +1,5 @@
 import { Injectable, Body } from '@nestjs/common';
-import { CreateTokenDto } from './dto/token.dto';
+import { InsertQueueDto } from './dto/token.dto';
 import {
   RtcTokenBuilder,
   RtmTokenBuilder,
@@ -18,30 +18,38 @@ export class RoomService {
   appCertificate: string = '0b0f93340f5a4b33bb219807e4d8b89b';
   room_list = {};
   user_list:object = {};
-  man_queue = [];
+  man_queue:object = {};
+  total_human = 2;
   icon_list = ['whale','eagle','elephant','tutle','honey','koala']
 
   static request_success: boolean = false;
 
   constructor(@InjectModel(Room.name) private roomModel: Model<Room>) {}
 
-  insertQueue(obj: object){
-    console.log('hello world');
+  insertQueue(obj: InsertQueueDto){
     if(!(obj['userId'] in this.user_list)){
       /** user_list 매칭 대기중인 user의 전체 리스트 0:방배점 못받음 표시 */
       this.user_list[obj['userId']] = 0;
-      this.man_queue.push(obj['userId']);
+      const UserId = obj['userId'];
+      this.man_queue[UserId] = obj['nickname'];
     }
 
     /** insert될때마다 새로운 사람이 추가된거니까 인원이 충족한지 확인한다 */
-    if(this.man_queue.length > 5){
-      const room_member = this.man_queue.slice(0,6);
-      this.man_queue = this.man_queue.splice(6);
-      const new_channelname = 'hello';
-      this.room_list[new_channelname] = room_member;
+    if(Object.keys(this.man_queue).length >= this.total_human){
+      /** icon 할당 */
       const temp_icon = this.icon_list;
+      const icon_insert = Object.entries(this.man_queue).slice(0,this.total_human);
+      for(const member of icon_insert){
+        this.man_queue[member[0]] = [this.man_queue[member[0]], temp_icon.pop()]
+      }
+      
+      const room_member = Object.entries(this.man_queue).slice(0,this.total_human);
+      this.man_queue = Object.entries(this.man_queue).slice(this.total_human);
+      const new_channelname = 'channel1';
+      
+      this.room_list[new_channelname] = room_member;
       for(const member of room_member){
-        this.token_create(`${member}`, new_channelname, temp_icon.pop());
+        this.token_create(`${member[0]}`, new_channelname);
       }
     }
   }
@@ -50,12 +58,15 @@ export class RoomService {
     if(Object.keys(this.user_list).length >0 && this.user_list[user['userId']] != 0){
       const temp = this.user_list[user['userId']];
       delete this.user_list[user['userId']];
+      console.log('queuelist', this.man_queue);
+      console.log('userlist:' , this.user_list);
+      console.log('roomlist:' , this.room_list);
       return temp;
     }
     else{return {msg: 'fail'}}
   }
 
-  token_create(userId: string, channel_name:string, icon:string){
+  token_create(userId: string, channel_name:string){
     let channelname: string = channel_name;
     const rtc_role = RtcRole.PUBLISHER;
     const expirationTimeInSeconds = 3600;
@@ -77,7 +88,6 @@ export class RoomService {
       agora_id: this.appId, 
       remain_time: '10',
       group_room_name: channelname,
-      icon : icon,
       room_info : this.room_list[channelname]};
   }
 }
